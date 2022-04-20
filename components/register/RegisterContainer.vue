@@ -10,9 +10,8 @@
       </div>
       <v-sheet class="d-flex justify-center align-center" align="center">
         <div class="pa-10">
-          Your account is currently pending wait until the admin verify your
-          account.<br />
-          Estimated time 30-60 minutes.
+          Your account is successfully created.<br />
+        
         </div>
       </v-sheet>
       <div align="end" class="pa-5">
@@ -264,12 +263,12 @@
                 </v-radio-group>
               </div>
             </v-col>
-            <v-col>
+            <!-- <v-col>
               <div>Status</div>
               <div>
                 <v-select outlined v-model="users.status"></v-select>
               </div>
-            </v-col>
+            </v-col> -->
           </v-row>
           <div align="center">
             <v-snackbar

@@ -96,7 +96,13 @@ export default {
             localStorage.setItem("id", response.data[0].id);
             localStorage.setItem("account_type", response.data[0].account_type);
             // console.log(response)
-             window.location.href="/artist/design"
+            if(response.data[0].account_type=='Admin'){
+                window.location.href="/admin/dashboard"
+            }
+            else{
+                window.location.href="/artist/design"
+            }
+           
             // const users = this.$axios
             //   .get(`/users/details/`, {
             //     headers: {

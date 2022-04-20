@@ -18,10 +18,10 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-    <add-design :isOpen="dialogAdd" @cancel="dialogAdd=false" @refresh="loadData" :items="selectedItem" :isAdd="isAdd"/>
+   <content-add :isOpen="dialogAdd" @cancel="dialogAdd=false" @refresh="loadData" :items="selectedItem" :isAdd="isAdd" />
     <v-row>
       <v-col align="start" class="pa-10 text-h5" cols="auto">
-        <b>Design Management</b>
+        <b>Category Management</b>
       </v-col>
       <v-spacer></v-spacer>
       <v-col align-self="center" align="end" class="pr-10">
@@ -35,7 +35,7 @@
           width="190"
           @click="addItem"
         >
-          <span class="text-none">Add New Design</span>
+          <span class="text-none">Add New Category</span>
         </v-btn>
       </v-col>
     </v-row>
@@ -94,11 +94,13 @@
 </template>
 
 <script>
-import AddDesign from './AddDesign.vue';
+import ContentAdd from './ContentAdd.vue';
+
 
 export default {
     components:{
-        AddDesign
+        ContentAdd
+       
     },
   created() {
     this.loadData();
@@ -117,10 +119,7 @@ export default {
       isAdd:true,
       headers: [
         { text: "ID", value: "id" },
-        { text: "Tattoo Name", value: "tattoo_name" },
-        { text: "Category", value: "category" },
-        { text: "Image", value: "image" },
-        { text: "Price", value: "price" },
+        { text: "Category Name", value: "category_name" },
          { text: "Actions", value: "opt" },
         ,
       ],
@@ -140,7 +139,7 @@ export default {
     },
     async deleteValue(){
      this.buttonLoad=true
-      this.$axios.delete(`/tattoo/${this.selectedItem.id}/`,{
+      this.$axios.delete(`/category/${this.selectedItem.id}/`,{
         headers:{
           Authorization:`Bearer ${localStorage.getItem('token')}`
         }
@@ -195,7 +194,7 @@ export default {
     async eventsGetall() {
       this.isLoading = true;
       const res = await this.$axios
-        .get(`/tattoo_id/${localStorage.getItem('id')}/`, {
+        .get(`/category/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

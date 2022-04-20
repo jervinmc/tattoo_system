@@ -121,6 +121,22 @@
       {{$route.name=='admin-configuration' ? 'System Configuration' : ''}}
     </div>
     </v-app-bar>
+     <v-app-bar  color="#222f3e" :clipped-left="clipped" fixed app elevation="1" v-else-if="account_type=='Admin'" >
+    <v-app-bar-nav-icon @click="drawer=true" color="white"></v-app-bar-nav-icon>
+    <v-row>
+      <v-col cols="auto">
+        <v-img src="/logo.png" height="60" width="60" contain style="cursor:pointer" @click="route('index')"></v-img>
+      </v-col>
+      <v-col  align-self="center">
+        <div class="white--text">
+         Tattoo
+      </div>
+      </v-col>
+    </v-row>
+    <div class="white--text">
+      {{$route.name=='admin-configuration' ? 'System Configuration' : ''}}
+    </div>
+    </v-app-bar>
     <v-main>
       <v-container class="pa-0" fluid>
         <Nuxt />
@@ -167,12 +183,12 @@
           <v-list-item
         
           color="white"
-            :to="items_client[index].to"
-            v-for="(key, index) in items_client"
+            :to="items_artist[index].to"
+            v-for="(key, index) in items_artist"
             :key="index"
           > 
-            <v-icon class="pr-2" color="white">{{ items_client[index].icon }}</v-icon>
-            <v-list-item-title style="color:white">{{ items_client[index].title }}</v-list-item-title>
+            <v-icon class="pr-2" color="white">{{ items_artist[index].icon }}</v-icon>
+            <v-list-item-title style="color:white">{{ items_artist[index].title }}</v-list-item-title>
           </v-list-item>
           <v-list-item
           color="white"
@@ -245,15 +261,28 @@ export default {
       items: [
         {
           icon: "mdi-apps",
-          title: "Welcome",
-          to: "/",
+          title: "Dashboard",
+          to: "/admin/dashboard",
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          title: "Content Management",
+          to: "/admin/cms",
         },
       ],
+      items_artist: [
+        {
+          icon: "mdi-apps",
+          title: "Design",
+          to: "/artist/design",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Appointment",
+          to: "/artist/appointment",
+        },
+      ],
+      
       miniVariant: false,
       right: true,
       rightDrawer: false,

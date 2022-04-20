@@ -18,13 +18,12 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-    <add-design :isOpen="dialogAdd" @cancel="dialogAdd=false" @refresh="loadData" :items="selectedItem" :isAdd="isAdd"/>
     <v-row>
       <v-col align="start" class="pa-10 text-h5" cols="auto">
-        <b>Design Management</b>
+        <b>Appointment Management</b>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col align-self="center" align="end" class="pr-10">
+      <!-- <v-col align-self="center" align="end" class="pr-10">
         <v-btn
           class="rnd-btn"
           rounded
@@ -37,7 +36,7 @@
         >
           <span class="text-none">Add New Design</span>
         </v-btn>
-      </v-col>
+      </v-col> -->
     </v-row>
     <v-data-table
       class="pa-5"
@@ -94,12 +93,9 @@
 </template>
 
 <script>
-import AddDesign from './AddDesign.vue';
 
 export default {
-    components:{
-        AddDesign
-    },
+  
   created() {
     this.loadData();
   },
@@ -117,10 +113,9 @@ export default {
       isAdd:true,
       headers: [
         { text: "ID", value: "id" },
-        { text: "Tattoo Name", value: "tattoo_name" },
-        { text: "Category", value: "category" },
+        { text: "Transaction Date", value: "transaction_date" },
         { text: "Image", value: "image" },
-        { text: "Price", value: "price" },
+        { text: "Status", value: "status" },
          { text: "Actions", value: "opt" },
         ,
       ],
@@ -195,7 +190,7 @@ export default {
     async eventsGetall() {
       this.isLoading = true;
       const res = await this.$axios
-        .get(`/tattoo_id/${localStorage.getItem('id')}/`, {
+        .get(`/transaction_artistid/${localStorage.getItem('id')}/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
