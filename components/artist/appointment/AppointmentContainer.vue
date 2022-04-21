@@ -75,14 +75,14 @@
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item @click.stop="editItem(item)">
+            <v-list-item @click.stop="status(item,'Accepted')">
               <v-list-item-content>
-                <v-list-item-title>Edit</v-list-item-title>
+                <v-list-item-title>Accept</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click.stop="deleteItem(item)">
+            <v-list-item @click.stop="status(item,'Declined')">
               <v-list-item-content>
-                <v-list-item-title>Delete</v-list-item-title>
+                <v-list-item-title>Decline</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -122,11 +122,17 @@ export default {
     };
   },
   methods: {
+    async  status(item,status){
+        this.$axios.patch(`/transaction/${item.id}/`,{
+            "status":status
+        },)
+        this.eventsGetall()
+      },
      getColorStatus(item) {
     if (item == "Pending") {
         return "background-color:#FFF5CC;border-radius:15px;padding:7px; width:150px; color: #344557;";
       }
-      else if(item =='Approved'){
+      else if(item =='Accepted'){
           return "background-color:green;border-radius:15px;padding:7px; width:150px; color:white;";
       } else  { 
         return "background-color:red;border-radius:15px;padding:7px; width:150px; color: white;";
@@ -169,9 +175,9 @@ export default {
       this.isLoading = true;
       const res = await this.$axios
         .patch(
-          `/announcement/${data.id}/`,
+          `/transaction/${data.id}/`,
           {
-            is_active: status == "Deactivate" ? false : true,
+            status:status
           },
           {
             headers: {
