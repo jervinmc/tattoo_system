@@ -87,6 +87,11 @@ export default {
         var response = await this.$axios
           .post("login/", credentials)
           .then((response) => {
+             if(response.data[0].status=='Deactivated'){
+                alert("Your account is still deactivated. Please wait to approved by the admin.")
+                   this.isLoaded = false;
+                return
+              }
             if(response.data=='no_data'){
                 alert('Wrong Credentials')
                 this.isLoaded=false;
@@ -100,6 +105,7 @@ export default {
                 window.location.href="/admin/dashboard"
             }
             else{
+             
                 window.location.href="/artist/design"
             }
            

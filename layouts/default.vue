@@ -265,6 +265,26 @@ export default {
           to: "/admin/dashboard",
         },
         {
+          icon: "mdi-apps",
+          title: "Usermanagement",
+          to: "/admin/usermanagement",
+        },
+        {
+          icon: "mdi-apps",
+          title: "Designs",
+          to: "/admin/designs",
+        },
+         {
+          icon: "mdi-apps",
+          title: "Transactions",
+          to: "/admin/transactions",
+        },
+        {
+          icon: "mdi-apps",
+          title: "Sales",
+          to: "/admin/sales",
+        },
+        {
           icon: "mdi-chart-bubble",
           title: "Content Management",
           to: "/admin/cms",
@@ -280,6 +300,11 @@ export default {
           icon: "mdi-chart-bubble",
           title: "Appointment",
           to: "/artist/appointment",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Sales",
+          to: "/artist/sales",
         },
       ],
       

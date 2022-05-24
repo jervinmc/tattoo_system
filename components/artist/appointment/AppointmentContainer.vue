@@ -80,6 +80,11 @@
                 <v-list-item-title>Accept</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item v-if="item.status=='Accepted'" @click.stop="status(item,'Completed')">
+              <v-list-item-content>
+                <v-list-item-title>Mark as Completed</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item @click.stop="status(item,'Declined')">
               <v-list-item-content>
                 <v-list-item-title>Decline</v-list-item-title>
@@ -115,6 +120,7 @@ export default {
         { text: "ID", value: "id" },
         { text: "Transaction Date", value: "transaction_date" },
         { text: "Image", value: "image" },
+        { text: "Price", value: "price" },
         { text: "Status", value: "status" },
          { text: "Actions", value: "opt" },
         ,
@@ -134,9 +140,14 @@ export default {
       }
       else if(item =='Accepted'){
           return "background-color:green;border-radius:15px;padding:7px; width:150px; color:white;";
-      } else  { 
+      } 
+      else if(item =='Completed'){
+          return "background-color:blue;border-radius:15px;padding:7px; width:150px; color:white;";
+      }
+      else  { 
         return "background-color:red;border-radius:15px;padding:7px; width:150px; color: white;";
       } 
+
       
     },
     async deleteValue(){

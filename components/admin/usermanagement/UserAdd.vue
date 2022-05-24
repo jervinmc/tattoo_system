@@ -2,14 +2,27 @@
 <v-form ref="form">
   <v-dialog v-model="isOpen" width="1000" persistent>
     <v-card class="pa-10">
-      <div align="center" class="text-h6">New Category</div>
+      <div align="center" class="text-h6">New Design</div>
       <v-col cols="12" class="px-0">
-        <div>Category Name</div>
+        <div>Tattoo Name</div>
         <div>
-          <v-text-field outlined v-model="events.category_name" ></v-text-field>
+          <v-text-field outlined v-model="events.tattoo_name"></v-text-field>
         </div>
       </v-col>
-        <v-col>
+      <v-col cols="12" class="px-0">
+        <div>Category</div>
+        <div>
+          <v-select outlined v-model="events.category" :items="category" item-text="category_name" item-value="category_name"></v-select>
+        </div>
+      </v-col>
+       <v-col cols="12" class="px-0">
+        <div>Price</div>
+        <div>
+          <v-text-field outlined v-model="events.price"></v-text-field>
+        </div>
+      </v-col>
+     
+       <v-col>
         <span class="pt-2 pr-10 pb-10"><b>Upload Image<v-icon @click="$refs.file.click()">mdi-plus</v-icon></b></span>
 
         <div class="hover_pointer pt-10">
@@ -68,11 +81,26 @@ export default {
     return {
       room_list:['Standard','Deluxe','Suite'],
       events: [],
+      category:[],
       buttonLoad: false,
       img_holder:'image_placeholder.png'
     };
   },
   methods: {
+      async  categoryGetall(){
+          this.isLoading = true;
+      const res = await this.$axios
+        .get(`/category/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.category = res.data;
+          this.isLoading = false;
+        });
+      },
     async addEvents() {
       this.buttonLoad = true;
       try {
@@ -80,10 +108,13 @@ export default {
         if (this.image != null && this.image != "") {
           form_data.append("image", this.image);
         }
-        form_data.append("category_name", this.events.category_name);
+        form_data.append("tattoo_name", this.events.tattoo_name);
+        form_data.append("category", this.events.category);
+        form_data.append("price", this.events.price);
+        form_data.append("user_id",localStorage.getItem('id'));
         if (this.isAdd) {
           const response = await this.$axios
-            .post("/category/", form_data, {
+            .post("/tattoo/", form_data, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
@@ -97,7 +128,7 @@ export default {
             });
         } else {
           const response = await this.$axios
-            .patch(`/category/${this.events.id}/`, form_data, {
+            .patch(`/tattoo/${this.events.id}/`, form_data, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
@@ -140,6 +171,9 @@ export default {
       this.$emit("cancel");
     },
   },
+  created(){
+    this.categoryGetall()
+  }
 };
 </script>
 

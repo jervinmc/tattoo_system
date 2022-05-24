@@ -505,7 +505,7 @@ export default {
         form_data.append('account_type', "Artist")
         form_data.append('contact_number', this.users.contact_number)
         form_data.append('address', this.users.address)
-        form_data.append('address', this.users.address)
+        form_data.append('status', "Deactivated")
         form_data.append('gender', this.users.gender)
         form_data.append('location', this.users.location)
         form_data.append('civil_status', this.users.status)

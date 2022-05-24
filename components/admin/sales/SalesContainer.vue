@@ -18,13 +18,12 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-    <add-design :isOpen="dialogAdd" @cancel="dialogAdd=false" @refresh="loadData" :items="selectedItem" :isAdd="isAdd"/>
     <v-row>
       <v-col align="start" class="pa-10 text-h5" cols="auto">
-        <b>Design Management</b>
+        <b>Sales Management</b>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col align-self="center" align="end" class="pr-10">
+      <!-- <v-col align-self="center" align="end" class="pr-10">
         <v-btn
           class="rnd-btn"
           rounded
@@ -37,24 +36,24 @@
         >
           <span class="text-none">Add New Design</span>
         </v-btn>
-      </v-col>
+      </v-col> -->
     </v-row>
     <v-data-table
       class="pa-5"
       :headers="headers"
-      :items="events"
+      :items="itemsCompleted"
       :loading="isLoading"
     >
      <template v-slot:[`item.status`]="{ item }">
         <div>
-          <v-chip align="center" 
+          <v-chip align="center"
             ><span>{{ item.status }} </span></v-chip
           >
         </div>
       </template>
      <template #[`item.price`]="{ item }">
           <div>
-            {{formatPrice(item.price)}}
+            {{formatPrice(item.price*.40)}}
           </div>
       </template>
       <template v-slot:loading>
@@ -76,14 +75,14 @@
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item @click.stop="editItem(item)">
+            <v-list-item @click.stop="status(item,'Accepted')">
               <v-list-item-content>
-                <v-list-item-title>Edit</v-list-item-title>
+                <v-list-item-title>Accept</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click.stop="deleteItem(item)">
+            <v-list-item @click.stop="status(item,'Declined')">
               <v-list-item-content>
-                <v-list-item-title>Delete</v-list-item-title>
+                <v-list-item-title>Decline</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -94,12 +93,14 @@
 </template>
 
 <script>
-import AddDesign from './AddDesign.vue';
 
 export default {
-    components:{
-        AddDesign
-    },
+computed:{
+    itemsCompleted(){
+        var data = this.events.filter(data=>data.status=='Completed')
+        return data
+    }
+},
   created() {
     this.loadData();
   },
@@ -117,22 +118,27 @@ export default {
       isAdd:true,
       headers: [
         { text: "ID", value: "id" },
-        { text: "Tattoo Name", value: "tattoo_name" },
-        { text: "Category", value: "category" },
+        { text: "Transaction Date", value: "transaction_date" },
         { text: "Image", value: "image" },
-        { text: "Price", value: "price" },
+        { text: "Price (Deducted 60%)", value: "price" },
         { text: "Status", value: "status" },
-         { text: "Actions", value: "opt" },
+        //  { text: "Actions", value: "opt" },
         ,
       ],
     };
   },
   methods: {
+    async  status(item,status){
+        this.$axios.patch(`/transaction/${item.id}/`,{
+            "status":status
+        },)
+        this.eventsGetall()
+      },
      getColorStatus(item) {
     if (item == "Pending") {
         return "background-color:#FFF5CC;border-radius:15px;padding:7px; width:150px; color: #344557;";
       }
-      else if(item =='Approved'){
+      else if(item =='Accepted'){
           return "background-color:green;border-radius:15px;padding:7px; width:150px; color:white;";
       } else  { 
         return "background-color:red;border-radius:15px;padding:7px; width:150px; color: white;";
@@ -157,7 +163,6 @@ export default {
       this.selectedItem = val
       this.deleteConfirmation=true
     },
-
      formatPrice(value) {
       let val = (value / 1).toFixed(2).replace(",", ".");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -175,9 +180,9 @@ export default {
       this.isLoading = true;
       const res = await this.$axios
         .patch(
-          `/announcement/${data.id}/`,
+          `/transaction/${data.id}/`,
           {
-            is_active: status == "Deactivate" ? false : true,
+            status:status
           },
           {
             headers: {
@@ -196,7 +201,7 @@ export default {
     async eventsGetall() {
       this.isLoading = true;
       const res = await this.$axios
-        .get(`/tattoo_id/${localStorage.getItem('id')}/`, {
+        .get(`/transaction/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

@@ -3,7 +3,70 @@
       <div class="text-h4">
           <b>Dashboard</b>
       </div>
-     <v-row class="pt-5">
+       <v-row>
+          <v-col>
+            <v-card
+              color="#7da0fa"
+              height="120"
+              class="rounded-xl pa-5"
+              elevation="5"
+            >
+              <div class="pb-5 white--text">Received Clients Today</div>
+              <div class="text-h4 white--text">
+                <b> {{0}}</b>
+              </div>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card
+              color="#4747a1"
+              height="120"
+              class="rounded-xl pa-5"
+              elevation="5"
+            >
+              <div class="pb-5 white--text">Total Customers</div>
+              <div class="text-h4 white--text">
+                <b>{{users.length}}</b>
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card
+              color="#7978e9"
+              height="120"
+              class="rounded-xl pa-5"
+              elevation="5"
+            >
+             <v-row>
+               <v-col>
+                  <div class="pb-5 white--text">Total No. of Sales</div>
+              <div class="text-h4 white--text">
+                <b> {{5}}</b>
+              </div>
+               </v-col>
+               <v-col align-self="center" align="end">
+                  <v-icon size="60" color="white">mdi-account-multiple</v-icon>
+               </v-col>
+             </v-row>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card
+              color="#f3797e"
+              height="120"
+              class="rounded-xl pa-5"
+              elevation="5"
+            >
+              <div class="pb-5 white--text">Total Products</div>
+              <div class="text-h4 white--text">
+                <b> {{5}}</b>
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
+     <!-- <v-row class="pt-5">
          <v-col align="center" @click="route('usermanagement')" >
             <v-card height="220" width="220" elevation="5" align="center" style="cursor:pointer">
                 <v-icon size="60">mdi-account-multiple</v-icon>
@@ -48,18 +111,8 @@
                 </div>
             </v-card>
          </v-col>
-          <!-- <v-col align="center" @click="route('donate')" >
-               <v-card height="220" width="220" elevation="5" align="center" style="cursor:pointer">
-                <v-icon size="60">mdi-text-box-search-outline</v-icon>
-                <div class="text-h6">
-                   <b>Approved Cases</b>
-                </div>
-                <div class="text-h3 green--text pt-5">
-                    <b>{{donation.length}}</b>
-                </div>
-            </v-card>
-         </v-col> -->
-     </v-row>
+  
+     </v-row> -->
      <div class="py-10" align="start">
        <v-card elevation="5">
          <div class="pa-2">
