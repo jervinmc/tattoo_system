@@ -4,21 +4,33 @@
     <v-card class="pa-10">
       <div align="center" class="text-h6">New Design</div>
       <v-col cols="12" class="px-0">
-        <div>Tattoo Name</div>
+        <div>Email</div>
         <div>
-          <v-text-field outlined v-model="events.tattoo_name"></v-text-field>
+          <v-text-field outlined v-model="events.email"></v-text-field>
         </div>
       </v-col>
       <v-col cols="12" class="px-0">
-        <div>Category</div>
+        <div>Firstname</div>
         <div>
-          <v-select outlined v-model="events.category" :items="category" item-text="category_name" item-value="category_name"></v-select>
+          <v-text-field outlined v-model="events.firstname"></v-text-field>
         </div>
       </v-col>
        <v-col cols="12" class="px-0">
-        <div>Price</div>
+        <div>Lastname</div>
         <div>
-          <v-text-field outlined v-model="events.price"></v-text-field>
+          <v-text-field outlined v-model="events.lastname"></v-text-field>
+        </div>
+      </v-col>
+        <v-col cols="12" class="px-0">
+        <div>Account Type</div>
+        <div>
+        <v-select outlined v-model="events.account_type" :items="['Admin','Artist','Client']"></v-select>
+        </div>
+      </v-col>
+       <v-col cols="12" class="px-0">
+        <div>Password</div>
+        <div>
+        <v-text-field type="password" outlined v-model="events.password"></v-text-field>
         </div>
       </v-col>
      
@@ -108,13 +120,15 @@ export default {
         if (this.image != null && this.image != "") {
           form_data.append("image", this.image);
         }
-        form_data.append("tattoo_name", this.events.tattoo_name);
-        form_data.append("category", this.events.category);
-        form_data.append("price", this.events.price);
-        form_data.append("user_id",localStorage.getItem('id'));
+        form_data.append("email", this.events.email);
+        form_data.append("firstname", this.events.firstname);
+        form_data.append("lastname", this.events.lastname);
+        form_data.append("account_type", this.events.account_type);
+       form_data.append("status", "Activated");
+       form_data.append("password", this.events.password);
         if (this.isAdd) {
           const response = await this.$axios
-            .post("/tattoo/", form_data, {
+            .post("/users/", form_data, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
@@ -128,7 +142,7 @@ export default {
             });
         } else {
           const response = await this.$axios
-            .patch(`/tattoo/${this.events.id}/`, form_data, {
+            .patch(`/users/${this.events.id}/`, form_data, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },

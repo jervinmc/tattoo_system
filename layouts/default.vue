@@ -97,13 +97,13 @@
       >
         <v-icon class="pb-1">mdi-login</v-icon>{{ name }}</v-toolbar-title
       >
-      <v-toolbar-title
+      <!-- <v-toolbar-title
         v-if="token == null"
         class="px-4 black--text"
         style="cursor: pointer; font-size: 16px"
         @click="route('register')"
         ><v-icon class="pb-1">mdi-plus</v-icon> Register</v-toolbar-title
-      >
+      > -->
     </v-app-bar>
     <v-app-bar  color="#222f3e" :clipped-left="clipped" fixed app elevation="1" v-else-if="account_type=='Artist'" >
     <v-app-bar-nav-icon @click="drawer=true" color="white"></v-app-bar-nav-icon>

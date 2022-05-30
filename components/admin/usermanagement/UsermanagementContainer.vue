@@ -45,10 +45,8 @@
       <v-col align="start" class="pa-10 text-h5" >
         <b>Users Management</b>
       </v-col>
-      <v-col align-self="center" class="pa-10 ">
-        <v-text-field placeholder="search" outlined v-model="search"></v-text-field>
-      </v-col>
-      <!-- <v-col align-self="center" align="end" class="pr-10" v-if="account_type!='Staff'">
+
+      <v-col align-self="center" align="end" class="pr-10" v-if="account_type!='Staff'">
         <v-btn
           class="rnd-btn"
           rounded
@@ -59,10 +57,13 @@
           width="190"
           @click="addItem"
         >
-          <span class="text-none">Request Beneficiaries</span>
+          <span class="text-none">Add User</span>
         </v-btn>
-      </v-col> -->
+      </v-col>
     </v-row>
+          <v-col align-self="center" class="pa-10 ">
+        <v-text-field placeholder="search" outlined v-model="search"></v-text-field>
+      </v-col>
     <v-data-table
       class="pa-5"
       :search="search"

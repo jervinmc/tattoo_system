@@ -133,10 +133,9 @@ export default {
         form_data.append("category", this.events.category);
         form_data.append("price", this.events.price);
         form_data.append("time_estimation", this.events.time_estimation);
-
-        form_data.append("status", "Pending");
         form_data.append("user_id", localStorage.getItem("id"));
         if (this.isAdd) {
+          form_data.append("status", "Pending");
           const response = await this.$axios
             .post("/tattoo/", form_data, {
               headers: {

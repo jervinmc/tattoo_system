@@ -18,6 +18,70 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+     <v-dialog v-model="categoryDesign" width="1000" persistent>
+    <v-card class="pa-10">
+        <v-data-table
+        
+      class="pa-5"
+      :headers="header_designs"
+      :items="design"
+      :loading="isLoadingDesign"
+    >
+     <template v-slot:[`item.status`]="{ item }">
+        <div>
+          <v-chip align="center" :style="getColorStatus(item.status)"
+            ><span>{{ item.status }} </span></v-chip
+          >
+        </div>
+      </template>
+     <template #[`item.price`]="{ item }">
+          <div>
+            {{formatPrice(item.price)}}
+          </div>
+      </template>
+      <template v-slot:loading>
+        <v-skeleton-loader
+          v-for="n in 5"
+          :key="n"
+          type="list-item-avatar-two-line"
+          class="my-2"
+        ></v-skeleton-loader>
+      </template>
+         <template #[`item.image`]="{ item }">
+             <v-img :src="item.image" height="150" width="150"></v-img>
+      </template>
+      <!-- <template #[`item.opt`]="{ item }">
+        <v-menu offset-y z-index="1">
+          <template v-slot:activator="{ attrs, on }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </template>
+          <v-list dense>
+             <v-list-item @click.stop="viewDesign(item)">
+              <v-list-item-content>
+                <v-list-item-title>View Designs</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click.stop="editItem(item)">
+              <v-list-item-content>
+                <v-list-item-title>Edit</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click.stop="deleteItem(item)">
+              <v-list-item-content>
+                <v-list-item-title>Delete</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template> -->
+    </v-data-table>
+     <v-col align="end">
+            <v-btn color="red" text @click="categoryDesign=false"> Back </v-btn>
+          </v-col>
+    </v-card>
+  </v-dialog>
    <content-add :isOpen="dialogAdd" @cancel="dialogAdd=false" @refresh="loadData" :items="selectedItem" :isAdd="isAdd" />
     <v-row>
       <v-col align="start" class="pa-10 text-h5" cols="auto">
@@ -76,6 +140,11 @@
             </v-btn>
           </template>
           <v-list dense>
+             <v-list-item @click.stop="viewDesign(item)">
+              <v-list-item-content>
+                <v-list-item-title>View Designs</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item @click.stop="editItem(item)">
               <v-list-item-content>
                 <v-list-item-title>Edit</v-list-item-title>
@@ -107,6 +176,7 @@ export default {
   },
   data() {
     return {
+      categoryDesign:false,
       buttonLoad:false,
       account_type:'',
       deleteConfirmation:false,
@@ -117,6 +187,17 @@ export default {
       users: [],
       dialogAdd:false,
       isAdd:true,
+      isLoadingDesign:false,
+      design:[],
+      header_designs: [
+        { text: "ID", value: "id" },
+        { text: "Tattoo Name", value: "tattoo_name" },
+        { text: "Price", value: "price" },
+        { text: "Status", value: "status" },
+        { text: "Image", value: "image" },
+  
+        ,
+      ],
       headers: [
         { text: "ID", value: "id" },
         { text: "Category Name", value: "category_name" },
@@ -127,6 +208,21 @@ export default {
     };
   },
   methods: {
+   async viewDesign(item){
+     this.categoryDesign = true
+      this.isLoadingDesign = true;
+      const res = await this.$axios
+        .get(`/category-design/${item.category_name}/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+
+          this.design = res.data;
+          this.isLoadingDesign = false;
+        });
+    },
      getColorStatus(item) {
     if (item == "Pending") {
         return "background-color:#FFF5CC;border-radius:15px;padding:7px; width:150px; color: #344557;";
