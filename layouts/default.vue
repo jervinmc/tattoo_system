@@ -49,7 +49,7 @@
         @click="route('index')"
         ><v-icon class="pb-1">mdi-home</v-icon>Home</v-toolbar-title
       >
-      <v-toolbar-title
+      <!-- <v-toolbar-title
         class="px-4 black--text"
         style="cursor: pointer; font-size: 16px"
         @click="route('market')"
@@ -73,7 +73,7 @@
         style="cursor: pointer; font-size: 16px"
         @click="route('seller')"
         ><v-icon class="pb-1">mdi-account</v-icon> Be an Artist</v-toolbar-title
-      >
+      > -->
       <div class="pl-16"></div>
       <v-toolbar-title
         v-if="token == null"

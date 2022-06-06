@@ -1,10 +1,10 @@
 <template>
   <div class="px-10">
-      <div class="text-h4">
+      <div class="text-h4 py-5">
           <b>Dashboard</b>
       </div>
        <v-row>
-          <v-col>
+          <!-- <v-col>
             <v-card
               color="#7da0fa"
               height="120"
@@ -16,8 +16,8 @@
                 <b> {{0}}</b>
               </div>
             </v-card>
-          </v-col>
-          <v-col>
+          </v-col> -->
+          <v-col cols="12">
             <v-card
               color="#4747a1"
               height="120"
@@ -32,7 +32,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12">
             <v-card
               color="#7978e9"
               height="120"
@@ -43,12 +43,12 @@
                <v-col>
                   <div class="pb-5 white--text">Total No. of Sales</div>
               <div class="text-h4 white--text">
-                <b> {{5}}</b>
+                <b> {{transaction.length}}</b>
               </div>
                </v-col>
-               <v-col align-self="center" align="end">
+               <!-- <v-col align-self="center" align="end">
                   <v-icon size="60" color="white">mdi-account-multiple</v-icon>
-               </v-col>
+               </v-col> -->
              </v-row>
             </v-card>
           </v-col>
@@ -59,9 +59,9 @@
               class="rounded-xl pa-5"
               elevation="5"
             >
-              <div class="pb-5 white--text">Total Products</div>
+              <div class="pb-5 white--text">Total Designs</div>
               <div class="text-h4 white--text">
-                <b> {{5}}</b>
+                <b> {{tattoo.length}}</b>
               </div>
             </v-card>
           </v-col>
@@ -113,7 +113,7 @@
          </v-col>
   
      </v-row> -->
-     <div class="py-10" align="start">
+     <!-- <div class="py-10" align="start">
        <v-card elevation="5">
          <div class="pa-2">
           <b> Case Report Analytics</b>
@@ -122,7 +122,7 @@
                     <pie-chart :data="chartData1" :options="chartOptions"></pie-chart>
                 </div>
        </v-card>
-       </div>
+       </div> -->
        <div>
        
        </div>
@@ -134,17 +134,20 @@ import PieChart from "./PieChart.js";
 export default {
     components:{
         PieChart,
-     
+
     },
     created(){
-      this.donateGetall()
+
         this.loadData()
     },
     data(){
         return{
         donation:[],
+         transaction:[],
         ps_list:[],
+          tattoo:[],
         chartData1: {
+         
         responsive:false,
         hoverBackgroundColor: "red",
         hoverBorderWidth: 10,
@@ -159,6 +162,7 @@ export default {
       },
       chartData: {
         responsive:false,
+      
         hoverBackgroundColor: "red",
         hoverBorderWidth: 10,
         chart_data1:false,
@@ -184,6 +188,33 @@ export default {
         }
     },
     methods:{
+  async    designGetall(){
+         this.isLoading = true;
+      const res = await this.$axios
+        .get(`/tattoo/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.tattoo = res.data;
+          this.isLoading = false;
+        });
+      },
+   async salesGetall(){
+      this.isLoading = true;
+      const res = await this.$axios
+        .get(`/transaction/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.transaction = res.data;
+        });
+    },
      async psGetall(){
           const res = await this.$axios
         .get(`/ps/`, {
@@ -230,37 +261,29 @@ export default {
             this.$router.push('/admin/'+val)
         },
         loadData(){
+          this.designGetall()
                 // this.searchGetall()
-                // this.usersGetall()
+                this.salesGetall()
+                this.usersGetall()
                 // this.psGetall()
                 // this.sapGetall()
         },
        async usersGetall(){
             const res = await this.$axios
-                .get(`/users/user/`, {
+                .get(`/users/`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 })
                 .then((res) => {
                 console.log(res.data);
-                this.users = res.data;
+                var a = res.data
+                this.users = a.filter(data=>data.account_type=='Client')
+              
                 
                 });
         },
-        async donateGetall(){
-            const res = await this.$axios
-                .get(`/donate/`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-                })
-                .then((res) => {
-                console.log(res.data);
-                this.donation = res.data;
-                
-                });
-        },
+        
       
       // async demandGetall(){
       //      this.isLoading = true;
