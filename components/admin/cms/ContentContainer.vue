@@ -201,7 +201,6 @@ export default {
       headers: [
         { text: "ID", value: "id" },
         { text: "Category Name", value: "category_name" },
-        { text: "Image", value: "image" },
          { text: "Actions", value: "opt" },
         ,
       ],

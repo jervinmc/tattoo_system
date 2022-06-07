@@ -36,8 +36,8 @@
     >
       <v-img
         src="/logo.png"
-        height="60"
-        width="60"
+        height="100"
+        width="100"
         contain
         style="cursor: pointer"
         @click="route('index')"
@@ -109,7 +109,7 @@
     <v-app-bar-nav-icon @click="drawer=true" color="white"></v-app-bar-nav-icon>
     <v-row>
       <v-col cols="auto">
-        <v-img src="/logo.png" height="60" width="60" contain style="cursor:pointer" @click="route('index')"></v-img>
+        <v-img src="/logo.png" height="200" width="200"  style="cursor:pointer" @click="route('index')"></v-img>
       </v-col>
       <v-col  align-self="center">
         <div class="white--text">
@@ -125,7 +125,7 @@
     <v-app-bar-nav-icon @click="drawer=true" color="white"></v-app-bar-nav-icon>
     <v-row>
       <v-col cols="auto">
-        <v-img src="/logo.png" height="60" width="60" contain style="cursor:pointer" @click="route('index')"></v-img>
+        <v-img src="/logo.png" height="100" width="100"  style="cursor:pointer" @click="route('index')"></v-img>
       </v-col>
       <v-col  align-self="center">
         <div class="white--text">

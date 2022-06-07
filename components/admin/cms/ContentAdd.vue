@@ -9,7 +9,7 @@
           <v-text-field outlined v-model="events.category_name" ></v-text-field>
         </div>
       </v-col>
-        <v-col>
+        <!-- <v-col>
         <span class="pt-2 pr-10 pb-10"><b>Upload Image<v-icon @click="$refs.file.click()">mdi-plus</v-icon></b></span>
 
         <div class="hover_pointer pt-10">
@@ -22,7 +22,7 @@
             class="mb-0"
           />
         </div>
-      </v-col>
+      </v-col> -->
       <v-col class="d-none">
         <input
           style="display: none"
