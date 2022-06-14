@@ -66,6 +66,63 @@
             </v-card>
           </v-col>
         </v-row>
+        <div class="py-5">
+          <v-card class="pa-10 rounded-xl" elevation="10">
+            <div class="text-h5">
+              <b>Artist</b>
+            </div>
+            <v-data-table
+      class="pa-5"
+      :search="search"
+      :headers="headers"
+      :items="users"
+      :loading="isLoading"
+    >
+     <template #[`item.price`]="{ item }">
+          <div>
+            {{formatPrice(item.price)}}
+          </div>
+      </template>
+      <template v-slot:loading>
+        <v-skeleton-loader
+          v-for="n in 5"
+          :key="n"
+          type="list-item-avatar-two-line"
+          class="my-2"
+        ></v-skeleton-loader>
+      </template>
+
+      <template #[`item.opt`]="{ item }">
+        <v-menu offset-y z-index="1">
+          <template v-slot:activator="{ attrs, on }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </template>
+          <v-list dense>
+              <v-list-item @click.stop="editItem(item)">
+              <v-list-item-content>
+                <v-list-item-title>Edit</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click.stop="status(item,'Activated')">
+              <v-list-item-content>
+                <v-list-item-title>Activate</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click.stop="status(item,'Deactivated')">
+              <v-list-item-content>
+                <v-list-item-title>Deactivate</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
+    </v-data-table>
+
+        </v-card>
+        </div>
+        
      <!-- <v-row class="pt-5">
          <v-col align="center" @click="route('usermanagement')" >
             <v-card height="220" width="220" elevation="5" align="center" style="cursor:pointer">
@@ -142,12 +199,22 @@ export default {
     },
     data(){
         return{
+          users:[],
+          headers: [
+        { text: "ID", value: "id" },
+        { text: "Firstname", value: "firstname" },
+        { text: "Lastname", value: "lastname" },
+        { text: "Email", value: "email" },
+        { text: "Status", value: "status" },
+        { text: "Action", value: "opt" },
+        ,
+      ],
         donation:[],
          transaction:[],
         ps_list:[],
           tattoo:[],
         chartData1: {
-         
+        
         responsive:false,
         hoverBackgroundColor: "red",
         hoverBorderWidth: 10,
@@ -188,6 +255,21 @@ export default {
         }
     },
     methods:{
+      async userGetall() {
+      this.isLoading = true;
+      const res = await this.$axios
+        .get(`/users/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+
+          this.users = res.data.filter(data=>data.account_type =='Artist');
+          this.isLoading = false;
+        });
+    },
   async    designGetall(){
          this.isLoading = true;
       const res = await this.$axios

@@ -22,7 +22,7 @@
           </div>
         </v-col>
         <v-col cols="12" class="px-0">
-          <div>Estimation Time</div>
+          <div>Estimation Time(Minutes)</div>
           <div>
             <v-text-field
               outlined
@@ -30,11 +30,32 @@
             ></v-text-field>
           </div>
         </v-col>
+         <v-col cols="12" class="px-0">
+          <div>Description</div>
+          <div>
+            <v-textarea
+              outlined
+              v-model="events.description"
+            ></v-textarea>
+          </div>
+        </v-col>
         <v-col cols="12" class="px-0">
           <div>Price</div>
           <div>
             <v-text-field outlined v-model="events.price"></v-text-field>
           </div>
+        </v-col>
+        <v-col cols="12" class="px-0">
+            <v-radio-group v-model="events.colored">
+        <v-radio
+          label="Colored"
+          value="Colored"
+        ></v-radio>
+         <v-radio
+          label="Black"
+          value="Black"
+        ></v-radio>
+      </v-radio-group>
         </v-col>
 
         <v-col>
@@ -131,7 +152,9 @@ export default {
         }
         form_data.append("tattoo_name", this.events.tattoo_name);
         form_data.append("category", this.events.category);
+         form_data.append("colored", this.events.colored);
         form_data.append("price", this.events.price);
+        form_data.append("description", this.events.description);
         form_data.append("time_estimation", this.events.time_estimation);
         form_data.append("user_id", localStorage.getItem("id"));
         if (this.isAdd) {

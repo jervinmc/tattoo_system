@@ -121,7 +121,9 @@ export default {
         { text: "Category", value: "category" },
         { text: "Image", value: "image" },
         { text: "Price", value: "price" },
+        { text: "Description", value: "description" },
         { text: "Status", value: "status" },
+        
          { text: "Actions", value: "opt" },
         ,
       ],

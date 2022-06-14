@@ -1,5 +1,6 @@
 <template>
   <v-card elevation="5">
+    <add-design :isOpen="dialogAdd" @cancel="dialogAdd=false" @refresh="loadData" :items="selectedItem" :isAdd="isAdd" />
      <v-dialog v-model="deleteConfirmation" width="500" persistent>
     <v-card class="pa-10">
     <div align="center" class="text-h6">Confirmation</div>
@@ -62,6 +63,11 @@
             </v-btn>
           </template>
           <v-list dense>
+              <v-list-item @click.stop="editItem(item)">
+              <v-list-item-content>
+                <v-list-item-title>Edit</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item @click.stop="status(item,'Approved')">
               <v-list-item-content>
                 <v-list-item-title>Approve</v-list-item-title>
@@ -85,9 +91,11 @@
 </template>
 
 <script>
+import AddDesign from '../../artist/AddDesign.vue';
 
 export default {
     components:{
+        AddDesign
         
     },
   created() {

@@ -297,6 +297,11 @@ export default {
           to: "/artist/design",
         },
         {
+          icon: "mdi-apps",
+          title: "Schedule",
+          to: "/artist/schedule",
+        },
+        {
           icon: "mdi-chart-bubble",
           title: "Appointment",
           to: "/artist/appointment",
