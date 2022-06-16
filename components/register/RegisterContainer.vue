@@ -11,7 +11,6 @@
       <v-sheet class="d-flex justify-center align-center" align="center">
         <div class="pa-10">
           Your account is successfully created.<br />
-        
         </div>
       </v-sheet>
       <div align="end" class="pa-5">

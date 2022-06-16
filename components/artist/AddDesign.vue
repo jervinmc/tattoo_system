@@ -22,7 +22,7 @@
           </div>
         </v-col>
         <v-col cols="12" class="px-0">
-          <div>Estimation Time(Minutes)</div>
+          <div>Estimated Time(Minutes)</div>
           <div>
             <v-text-field
               outlined

@@ -42,6 +42,7 @@ export default {
       this.$refs.calendar.next()
     },
        formatDate(val) {
+
       return moment(String(val)).format("YYYY-MM-DD hh:mm");
     },
     async initialize() {
@@ -56,7 +57,11 @@ export default {
             this.events = []
           console.log(res.data);
           for(let key in res.data){
-              this.events.push({"name":`Tattoo ${res.data[key].estimated_time} Minutes Session`,"start":this.formatDate(res.data[key].transaction_date)})
+            res.data[key].transaction_date = res.data[key].transaction_date.replace(':00','')
+            res.data[key].transaction_date = res.data[key].transaction_date.replace('T',' ')
+            res.data[key].transaction_date = res.data[key].transaction_date.replace('Z','')
+              var final_date = res.data[key].transaction_date;
+              this.events.push({"name":`Tattoo ${res.data[key].estimated_time} Minutes Session`,"start":final_date})
           }
       
           this.isLoading = false;

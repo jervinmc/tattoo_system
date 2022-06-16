@@ -2,7 +2,7 @@
 <v-form ref="form">
   <v-dialog v-model="isOpen" width="1000" persistent>
     <v-card class="pa-10">
-      <div align="center" class="text-h6">New Design</div>
+      <div align="center" class="text-h6">New User</div>
       <v-col cols="12" class="px-0">
         <div>Email</div>
         <div>
@@ -37,21 +37,6 @@
         <div>Password</div>
         <div>
         <v-text-field type="password" outlined v-model="events.password"></v-text-field>
-        </div>
-      </v-col>
-     
-       <v-col>
-        <span class="pt-2 pr-10 pb-10"><b>Upload Image<v-icon @click="$refs.file.click()">mdi-plus</v-icon></b></span>
-
-        <div class="hover_pointer pt-10">
-          <img
-            @click="$refs.file.click()"
-            :src="img_holder"
-            alt="item_.js"
-            height="150"
-            width="150"
-            class="mb-0"
-          />
         </div>
       </v-col>
       <v-col class="d-none">
