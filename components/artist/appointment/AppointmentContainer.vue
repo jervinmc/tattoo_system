@@ -124,6 +124,7 @@ export default {
         { text: "Transaction Date", value: "transaction_date" },
         { text: "Image", value: "image" },
         { text: "Price", value: "price" },
+         { text: "Allergy", value: "allergy" },
         { text: "Payment Receipt", value: "paymentImage" },
         { text: "Status", value: "status" },
          { text: "Actions", value: "opt" },
