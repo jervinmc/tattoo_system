@@ -45,9 +45,10 @@ export default {
       return moment(String(val)).format("YYYY-MM-DD hh:mm");
     },
     async initialize() {
+          
       this.isLoading = true;
       const res = await this.$axios
-        .get(`/transaction_artistid/${localStorage.getItem("id")}/`, {
+        .get(`/transaction_artistid/${this.$route.query.id}/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

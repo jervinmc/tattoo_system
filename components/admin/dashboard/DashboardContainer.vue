@@ -66,7 +66,41 @@
             </v-card>
           </v-col>
         </v-row>
-        <div class="py-5">
+        <v-row>
+          <v-col cols="6">
+             <div class="py-5">
+          <v-card class="pa-10 rounded-xl" elevation="10">
+            <div class="text-h5">
+              <b>Top Designs</b>
+            </div>
+            <v-data-table
+      class="pa-5"
+      :items-per-page="5"
+      :search="search"
+      :headers="headerTopDesign"
+      :items="topDesign"
+      :loading="isLoading"
+    >
+    
+      <template v-slot:loading>
+        <v-skeleton-loader
+          v-for="n in 5"
+          :key="n"
+          type="list-item-avatar-two-line"
+          class="my-2"
+        ></v-skeleton-loader>
+      </template>
+
+      <template #[`item.image`]="{ item }">
+        <v-img :src="item.image" height="150" width="150"></v-img>
+      </template>
+    </v-data-table>
+
+        </v-card>
+        </div>
+          </v-col>
+          <v-col cols="6">
+             <div class="py-5">
           <v-card class="pa-10 rounded-xl" elevation="10">
             <div class="text-h5">
               <b>Artist</b>
@@ -78,11 +112,11 @@
       :items="users"
       :loading="isLoading"
     >
-     <template #[`item.price`]="{ item }">
+     <!-- <template #[`item.price`]="{ item }">
           <div>
             {{formatPrice(item.price)}}
           </div>
-      </template>
+      </template> -->
       <template v-slot:loading>
         <v-skeleton-loader
           v-for="n in 5"
@@ -100,21 +134,12 @@
             </v-btn>
           </template>
           <v-list dense>
-              <v-list-item @click.stop="editItem(item)">
+              <v-list-item @click.stop="viewSchedule(item)">
               <v-list-item-content>
-                <v-list-item-title>Edit</v-list-item-title>
+                <v-list-item-title>View Schedule</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click.stop="status(item,'Activated')">
-              <v-list-item-content>
-                <v-list-item-title>Activate</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item @click.stop="status(item,'Deactivated')">
-              <v-list-item-content>
-                <v-list-item-title>Deactivate</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+      
           </v-list>
         </v-menu>
       </template>
@@ -122,6 +147,9 @@
 
         </v-card>
         </div>
+          </v-col>
+        </v-row>
+       
         
      <!-- <v-row class="pt-5">
          <v-col align="center" @click="route('usermanagement')" >
@@ -194,12 +222,22 @@ export default {
 
     },
     created(){
-
+        this.topDesignGetall()
         this.loadData()
     },
     data(){
         return{
           users:[],
+          headerTopDesign: [
+        { text: "ID", value: "id" },
+        { text: "Tattoo Name", value: "tattoo_name" },
+        { text: "Category", value: "category" },
+        { text: "Image", value: "image" },
+        { text: "Price", value: "price" },
+        { text: "Color", value: "colored" },
+        { text: "Status", value: "status" },
+        ,
+      ],
           headers: [
         { text: "ID", value: "id" },
         { text: "Firstname", value: "firstname" },
@@ -213,6 +251,7 @@ export default {
          transaction:[],
         ps_list:[],
           tattoo:[],
+          topDesign:[],
         chartData1: {
         
         responsive:false,
@@ -255,18 +294,33 @@ export default {
         }
     },
     methods:{
+      viewSchedule(item){
+        window.location.href=`/admin/schedule?id=${item.id}`
+      },
       async userGetall() {
       this.isLoading = true;
       const res = await this.$axios
-        .get(`/users/`, {
+        .get(`/artist/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
         .then((res) => {
           console.log(res.data);
-
-          this.users = res.data.filter(data=>data.account_type =='Artist');
+          this.users = res.data
+          this.isLoading = false;
+        });
+       
+    },
+    async topDesignGetall(){
+       const res1 = await this.$axios
+        .get(`/tattoo-mostbuy/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res1) => {
+          this.topDesign = res1.data
           this.isLoading = false;
         });
     },
@@ -346,25 +400,25 @@ export default {
           this.designGetall()
                 // this.searchGetall()
                 this.salesGetall()
-                this.usersGetall()
+                this.userGetall()
                 // this.psGetall()
                 // this.sapGetall()
         },
-       async usersGetall(){
-            const res = await this.$axios
-                .get(`/users/`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-                })
-                .then((res) => {
-                console.log(res.data);
-                var a = res.data
-                this.users = a.filter(data=>data.account_type=='Client')
+      //  async usersGetall(){
+      //       const res = await this.$axios
+      //           .get(`/users/`, {
+      //           headers: {
+      //               Authorization: `Bearer ${localStorage.getItem("token")}`,
+      //           },
+      //           })
+      //           .then((res) => {
+      //           console.log(res.data);
+      //           var a = res.data
+      //           this.users = a.filter(data=>data.account_type=='Client')
               
                 
-                });
-        },
+      //           });
+      //   },
         
       
       // async demandGetall(){

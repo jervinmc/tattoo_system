@@ -119,6 +119,7 @@ export default {
         { text: "Category", value: "category" },
         { text: "Image", value: "image" },
         { text: "Price", value: "price" },
+        { text: "Color", value: "colored" },
         { text: "Status", value: "status" },
          { text: "Actions", value: "opt" },
         ,

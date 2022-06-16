@@ -51,6 +51,9 @@
           >
         </div>
       </template>
+       <template v-slot:[`item.paymentImage`]="{ item }">
+       <v-img :src="item.paymentImage" height="150" width="150"></v-img>
+      </template>
      <template #[`item.price`]="{ item }">
           <div>
             {{formatPrice(item.price)}}
@@ -116,6 +119,8 @@ export default {
         { text: "Transaction Date", value: "transaction_date" },
         { text: "Image", value: "image" },
         { text: "Price", value: "price" },
+        { text: "Allergy", value: "allergy" },
+        { text: "Payment Receipt", value: "paymentImage" },
         { text: "Status", value: "status" },
         //  { text: "Actions", value: "opt" },
         ,

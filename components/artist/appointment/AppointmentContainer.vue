@@ -67,6 +67,9 @@
          <template #[`item.image`]="{ item }">
              <v-img :src="item.image" height="150" width="150"></v-img>
       </template>
+       <template #[`item.paymentImage`]="{ item }">
+             <v-img :src="item.paymentImage" height="150" width="150"></v-img>
+      </template>
       <template #[`item.opt`]="{ item }">
         <v-menu offset-y z-index="1">
           <template v-slot:activator="{ attrs, on }">
@@ -121,6 +124,7 @@ export default {
         { text: "Transaction Date", value: "transaction_date" },
         { text: "Image", value: "image" },
         { text: "Price", value: "price" },
+        { text: "Payment Receipt", value: "paymentImage" },
         { text: "Status", value: "status" },
          { text: "Actions", value: "opt" },
         ,

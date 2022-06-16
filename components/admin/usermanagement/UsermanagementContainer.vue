@@ -152,6 +152,7 @@ export default {
         { text: "Firstname", value: "firstname" },
         { text: "Lastname", value: "lastname" },
         { text: "Email", value: "email" },
+        { text: "Gcash", value: "gcash" },
         { text: "Status", value: "status" },
         { text: "Action", value: "opt" },
         ,
