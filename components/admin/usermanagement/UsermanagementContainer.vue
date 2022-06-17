@@ -152,7 +152,6 @@ export default {
         { text: "Firstname", value: "firstname" },
         { text: "Lastname", value: "lastname" },
         { text: "Email", value: "email" },
-        { text: "Gcash", value: "gcash" },
         { text: "Status", value: "status" },
         { text: "Action", value: "opt" },
         ,
@@ -286,7 +285,7 @@ export default {
         .then((res) => {
           console.log(res.data);
 
-          this.events = res.data.filter(data=>data.account_type !='Admin');
+          this.events = res.data.filter(data=>data.account_type !='Owner');
           this.isLoading = false;
         });
     },

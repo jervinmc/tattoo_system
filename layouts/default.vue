@@ -121,7 +121,7 @@
       {{$route.name=='admin-configuration' ? 'System Configuration' : ''}}
     </div>
     </v-app-bar>
-     <v-app-bar  color="#222f3e" :clipped-left="clipped" fixed app elevation="1" v-else-if="account_type=='Admin'" >
+     <v-app-bar  color="#222f3e" :clipped-left="clipped" fixed app elevation="1" v-else-if="account_type=='Owner'" >
     <v-app-bar-nav-icon @click="drawer=true" color="white"></v-app-bar-nav-icon>
     <v-row>
       <v-col cols="auto">
@@ -157,7 +157,7 @@
     </v-footer>
       <v-navigation-drawer v-model="drawer" absolute bottom temporary  color="#222f3e">
          <!--eslint-disable-->
-      <v-list nav dense   v-if="account_type=='Admin'">
+      <v-list nav dense   v-if="account_type=='Owner'">
         <v-list-item-group active-class="primary" color="white">
           <v-list-item
         

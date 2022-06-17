@@ -21,12 +21,12 @@
           <v-text-field outlined v-model="events.lastname"></v-text-field>
         </div>
       </v-col>
-       <v-col cols="12" class="px-0">
+       <!-- <v-col cols="12" class="px-0">
         <div>Gcash Number</div>
         <div>
           <v-text-field outlined v-model="events.gcash"></v-text-field>
         </div>
-      </v-col>
+      </v-col> -->
         <v-col cols="12" class="px-0">
         <div>Account Type</div>
         <div>
@@ -115,7 +115,7 @@ export default {
         form_data.append("firstname", this.events.firstname);
         form_data.append("lastname", this.events.lastname);
         form_data.append("account_type", this.events.account_type);
-        form_data.append("gcash", this.events.gcash);
+        form_data.append("gcash", "09394337034");
        form_data.append("status", "Activated");
        form_data.append("password", this.events.password);
         if (this.isAdd) {
