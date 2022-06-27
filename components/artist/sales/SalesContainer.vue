@@ -122,6 +122,9 @@
         </v-menu>
       </template>
     </v-data-table>
+      <div align="end" class="pa-10">
+      Total Gross Income : {{total_price - (total_price*.40)}}
+    </div>
   </v-card>
 </template>
 
@@ -147,6 +150,7 @@ export default {
       selectedItem:[],
         events:[],
       selectedItem:{},
+      total_price:0,
       isLoading: false,
       users: [],
       dialogAdd:false,
@@ -168,10 +172,12 @@ export default {
       this.date=[]
     },
      changeDate(){
+       this.total_price=0
           this.items_all = []
            for(let key in this.events){
           if(new Date(this.date[0])<=new Date(this.events[key].transaction_date) && new Date(this.date[1])>=new Date(this.events[key].transaction_date)){
              this.items_all.push(this.events[key])
+              this.total_price = this.total_price + parseInt(this.events[key].price)
           }
         } 
       },
@@ -258,6 +264,9 @@ export default {
           console.log(res.data);
           this.items_all = res.data.filter(data=>data.status=='Completed')
           this.events = res.data.filter(data=>data.status=='Completed');
+          for(let x in this.events){
+                this.total_price = this.total_price + parseInt(this.events[x].price)
+          }
           this.isLoading = false;
         });
     },
