@@ -139,6 +139,7 @@ computed:{
   },
   data() {
     return {
+      items_all:[],
       eventDate:false,
       buttonLoad:false,
       account_type:'',

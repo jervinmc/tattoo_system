@@ -23,6 +23,39 @@
         <b>Sales Management</b>
       </v-col>
       <v-spacer></v-spacer>
+      <v-col class="pa-10 ">
+          <v-menu
+          class="pa-0"
+          ref="eventDate"
+          v-model="eventDate"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+            append-icon="mdi-close"
+            @click:append="resetDate"
+            hide-details=""
+              v-model="date"
+              outlined
+              label="Date"
+              persistent-hint
+              v-bind="attrs"
+              @blur="date = date"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            @change="changeDate"
+            v-model="date"
+            no-title
+            range
+          ></v-date-picker>
+        </v-menu>
+       </v-col>
       <!-- <v-col align-self="center" align="end" class="pr-10">
         <v-btn
           class="rnd-btn"
@@ -41,7 +74,7 @@
     <v-data-table
       class="pa-5"
       :headers="headers"
-      :items="itemsCompleted"
+      :items="items_all"
       :loading="isLoading"
     >
      <template v-slot:[`item.status`]="{ item }">
@@ -107,6 +140,8 @@ export default {
   data() {
     return {
       buttonLoad:false,
+      date:[],
+      items_all:[],
       account_type:'',
       deleteConfirmation:false,
       selectedItem:[],
@@ -128,6 +163,18 @@ export default {
     };
   },
   methods: {
+     resetDate(){
+      this.items_all=this.events
+      this.date=[]
+    },
+     changeDate(){
+          this.items_all = []
+           for(let key in this.events){
+          if(new Date(this.date[0])<=new Date(this.events[key].transaction_date) && new Date(this.date[1])>=new Date(this.events[key].transaction_date)){
+             this.items_all.push(this.events[key])
+          }
+        } 
+      },
     async  status(item,status){
         this.$axios.patch(`/transaction/${item.id}/`,{
             "status":status
@@ -209,7 +256,8 @@ export default {
         })
         .then((res) => {
           console.log(res.data);
-          this.events = res.data;
+          this.items_all = res.data.filter(data=>data.status=='Completed')
+          this.events = res.data.filter(data=>data.status=='Completed');
           this.isLoading = false;
         });
     },
