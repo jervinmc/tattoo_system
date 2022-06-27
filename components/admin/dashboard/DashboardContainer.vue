@@ -235,6 +235,7 @@ export default {
         { text: "Image", value: "image" },
         { text: "Price", value: "price" },
         { text: "Color", value: "colored" },
+        { text: "Volume", value: "numAvail" },
         { text: "Status", value: "status" },
         ,
       ],
