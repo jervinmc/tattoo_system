@@ -41,7 +41,7 @@
             hide-details=""
               v-model="date"
               outlined
-              label="Date"
+              label="Range Filter"
               persistent-hint
               v-bind="attrs"
               @blur="date = date"
@@ -53,6 +53,38 @@
             v-model="date"
             no-title
             range
+          ></v-date-picker>
+        </v-menu>
+       </v-col>
+        <v-col class="pa-10 ">
+          <v-menu
+          class="pa-0"
+          ref="eventDate1"
+          v-model="eventDate1"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+            append-icon="mdi-close"
+            @click:append="resetDate"
+            hide-details=""
+              v-model="daily"
+              outlined
+              label="Daily Filter"
+              persistent-hint
+              v-bind="attrs"
+              @blur="date = date"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            @change="dailyFilter"
+            v-model="daily"
+            no-title
           ></v-date-picker>
         </v-menu>
        </v-col>
@@ -129,7 +161,7 @@
 </template>
 
 <script>
-
+import moment from "moment";
 export default {
 computed:{
     itemsCompleted(){
@@ -142,6 +174,8 @@ computed:{
   },
   data() {
     return {
+      daily:'',
+      eventDate1:false,
       total_price:0,
       items_all:[],
       eventDate:false,
@@ -168,6 +202,9 @@ computed:{
     };
   },
   methods: {
+    formatDate(val) {
+      return moment(String(val)).format("YYYY-MM-DD");
+    },
     resetDate(){
       this.items_all=this.events
       this.date=[]
@@ -177,6 +214,16 @@ computed:{
           this.items_all = []
            for(let key in this.events){
           if(new Date(this.date[0])<=new Date(this.events[key].transaction_date) && new Date(this.date[1])>=new Date(this.events[key].transaction_date)){
+             this.items_all.push(this.events[key])
+             this.total_price = this.total_price + parseInt(this.events[key].price)
+          }
+        } 
+      },
+      dailyFilter(){
+       this.total_price=0
+          this.items_all = []
+           for(let key in this.events){
+          if(this.formatDate(this.daily)==this.formatDate(this.events[key].transaction_date)){
              this.items_all.push(this.events[key])
              this.total_price = this.total_price + parseInt(this.events[key].price)
           }

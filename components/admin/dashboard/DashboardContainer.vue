@@ -67,11 +67,11 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6">
+          <v-col cols="12">
              <div class="py-5">
           <v-card class="pa-10 rounded-xl" elevation="10">
             <div class="text-h5">
-              <b>Top Designs</b>
+              <b>Top Designs and Artists</b>
             </div>
             <v-data-table
       class="pa-5"
@@ -99,7 +99,7 @@
         </v-card>
         </div>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="12">
              <div class="py-5">
           <v-card class="pa-10 rounded-xl" elevation="10">
             <div class="text-h5">
@@ -235,6 +235,7 @@ export default {
         { text: "Image", value: "image" },
         { text: "Price", value: "price" },
         { text: "Color", value: "colored" },
+        { text: "Firstname", value: "firstname" },
         { text: "Volume", value: "numAvail" },
         { text: "Status", value: "status" },
         ,
