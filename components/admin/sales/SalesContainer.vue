@@ -206,6 +206,7 @@ computed:{
       return moment(String(val)).format("YYYY-MM-DD");
     },
     resetDate(){
+       this.daily=''
       this.items_all=this.events
       this.date=[]
     },

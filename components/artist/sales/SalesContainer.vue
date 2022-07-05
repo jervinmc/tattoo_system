@@ -56,6 +56,38 @@
           ></v-date-picker>
         </v-menu>
        </v-col>
+        <v-col class="pa-10 ">
+          <v-menu
+          class="pa-0"
+          ref="eventDate1"
+          v-model="eventDate1"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+            append-icon="mdi-close"
+            @click:append="resetDate"
+            hide-details=""
+              v-model="daily"
+              outlined
+              label="Daily Filter"
+              persistent-hint
+              v-bind="attrs"
+              @blur="date = date"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            @change="dailyFilter"
+            v-model="daily"
+            no-title
+          ></v-date-picker>
+        </v-menu>
+       </v-col>
       <!-- <v-col align-self="center" align="end" class="pr-10">
         <v-btn
           class="rnd-btn"
@@ -129,7 +161,7 @@
 </template>
 
 <script>
-
+import moment from "moment";
 export default {
   computed:{
       itemsCompleted(){
@@ -142,6 +174,7 @@ export default {
   },
   data() {
     return {
+      daily:'',
       buttonLoad:false,
       date:[],
       items_all:[],
@@ -167,7 +200,21 @@ export default {
     };
   },
   methods: {
+    formatDate(val) {
+      return moment(String(val)).format("YYYY-MM-DD");
+    },
+    dailyFilter(){
+       this.total_price=0
+          this.items_all = []
+           for(let key in this.events){
+          if(this.formatDate(this.daily)==this.formatDate(this.events[key].transaction_date)){
+             this.items_all.push(this.events[key])
+             this.total_price = this.total_price + parseInt(this.events[key].price)
+          }
+        } 
+      },
      resetDate(){
+       this.daily=''
       this.items_all=this.events
       this.date=[]
     },
