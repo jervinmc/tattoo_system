@@ -76,8 +76,7 @@
               <b>Top Artist</b>
             </div>
             </v-col>
-            <v-col>
-               <v-col class="pa-10 ">
+         <v-col class="pa-10 ">
           <v-menu
           class="pa-0"
           ref="eventDate"
@@ -95,7 +94,7 @@
             hide-details=""
               v-model="date"
               outlined
-              label="Range Filter"
+              label="Daily Filter"
               persistent-hint
               v-bind="attrs"
               @blur="date = date"
@@ -109,7 +108,39 @@
           ></v-date-picker>
         </v-menu>
        </v-col>
-            </v-col>
+             <v-col class="pa-10 ">
+          <v-menu
+          class="pa-0"
+          ref="eventDateRange"
+          v-model="eventDateRange"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+            append-icon="mdi-close"
+            @click:append="resetDate"
+            hide-details=""
+              v-model="dateRange"
+              outlined
+              label="Range Filter"
+              persistent-hint
+              v-bind="attrs"
+              @blur="dateRange = dateRange"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            @change="topArtistGetall"
+            v-model="dateRange"
+            no-title
+            range
+          ></v-date-picker>
+        </v-menu>
+       </v-col>
            </v-row>
             <v-data-table
               class="pa-5"
@@ -133,9 +164,78 @@
       <v-col cols="12">
         <div class="py-5">
           <v-card class="pa-10 rounded-xl" elevation="10">
-            <div class="text-h5">
+          <v-row>
+            <v-col>
+              <div class="text-h5">
               <b>Top Design</b>
             </div>
+          </v-col>
+            <!-- <v-col class="pa-10 ">
+          <v-menu
+          class="pa-0"
+          ref="eventDate"
+          v-model="eventDate"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+            append-icon="mdi-close"
+            @click:append="resetDate"
+            hide-details=""
+              v-model="date"
+              outlined
+              label="Daily Filter"
+              persistent-hint
+              v-bind="attrs"
+              @blur="date = date"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            @change="topArtistGetall"
+            v-model="date"
+            no-title
+          ></v-date-picker>
+        </v-menu>
+       </v-col> -->
+             <!-- <v-col class="pa-10 ">
+          <v-menu
+          class="pa-0"
+          ref="eventDateRange"
+          v-model="eventDateRange"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+            append-icon="mdi-close"
+            @click:append="resetDate"
+            hide-details=""
+              v-model="dateRange"
+              outlined
+              label="Range Filter"
+              persistent-hint
+              v-bind="attrs"
+              @blur="dateRange = dateRange"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            @change="topArtistGetall"
+            v-model="dateRange"
+            no-title
+            range
+          ></v-date-picker>
+        </v-menu>
+       </v-col> -->
+          </v-row>
             <v-data-table
               class="pa-5"
               :items-per-page="5"
@@ -277,12 +377,15 @@ export default {
     PieChart,
   },
   created() {
-    this.topDesignGetall();
+    // this.topDesignGetall();
     this.loadData();
     this.topArtistGetall()
   },
   data() {
     return {
+      dateRange:[],
+      eventDate:false,
+      eventDateRange:false,
       topArtist:[],
       date:'',
       users: [],
@@ -294,7 +397,8 @@ export default {
         { text: "Price", value: "price" },
         { text: "Color", value: "colored" },
         { text: "Firstname", value: "firstname" },
-        { text: "Volume", value: "numAvail" },
+        { text: "Number of Transaction", value: "numberOfTransaction" },
+        // { text: "Volume", value: "numAvail" },
         ,
       ],
       headerTopArtist: [
@@ -381,26 +485,30 @@ export default {
     },
     async topDesignGetall() {
       const res1 = await this.$axios
-        .get(`/tattoo-mostbuy/`, {
+        .get(`/tattoo-mostbuy/?date=${this.dateRange!=[] ? this.dateRange : this.date}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
         .then((res1) => {
           this.topDesign = res1.data;
+          console.log(res1.data)
           this.isLoading = false;
         });
     },
     async topArtistGetall() {
+    
       const res1 = await this.$axios
-        .get(`/top-artist/?date=${this.date}`, {
+        .get(`/top-artist/?date=${this.dateRange!=[] ? this.dateRange : this.date}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
         .then((res1) => {
           this.topArtist = res1.data;
+          this.topDesignGetall()
         });
+        
     },
     
     async designGetall() {
