@@ -485,7 +485,7 @@ export default {
     },
     async topDesignGetall() {
       const res1 = await this.$axios
-        .get(`/tattoo-mostbuy/?date=${this.dateRange!=[] ? this.dateRange : this.date}`, {
+        .get(`/tattoo-mostbuy/?date=${this.dateRange!='' ? this.dateRange : this.date}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -497,9 +497,8 @@ export default {
         });
     },
     async topArtistGetall() {
-    
       const res1 = await this.$axios
-        .get(`/top-artist/?date=${this.dateRange!=[] ? this.dateRange : this.date}`, {
+        .get(`/top-artist/?date=${this.dateRange!='' ? this.dateRange : this.date}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
